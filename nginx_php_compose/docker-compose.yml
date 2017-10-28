@@ -1,0 +1,18 @@
+version: '2'
+services:
+    nginx:
+        image: nginx
+        volumes:
+            - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./nginx/conf/conf.d:/etc/nginx/conf.d:ro
+            - ./nginx/wwwroot:/var/wwwroot:ro
+        ports:
+            - "8081:80"
+        links:
+            - phptest
+    phptest:
+        build:
+            context: .
+            dockerfile: ./php7.1-fpm/Dockerfile
+        volumes:
+            - ./nginx/wwwroot:/var/wwwroot
